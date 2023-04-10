@@ -1,0 +1,27 @@
+databaseName: multi_tenant_customerdb
+server:
+  port: 8088
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+multitenancy:
+  master:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/multi_tenant_customerdb
+      username: postgres
+      password: postgres
+    liquibase:
+      changeLog: classpath:db/changelog/db.changelog-master.xml
+  tenant:
+    datasource:
+      url-prefix: jdbc:postgresql://localhost:5432/
+    liquibase:
+      changeLog: classpath:db/changelog/db.changelog-tenant.xml
+encryption:
+  secret: verySecret
+  salt: f1nd1ngn3m0

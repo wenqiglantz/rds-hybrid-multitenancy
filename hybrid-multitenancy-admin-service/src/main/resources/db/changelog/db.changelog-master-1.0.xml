@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="create-tenant-table" author="wenqi.glantz">
+        <createTable tableName="tenant">
+            <column name="tenant_id" type="varchar(30)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="isolation_type" type="varchar(50)"/>
+            <column name="db_or_schema" type="varchar(50)"/>
+            <column name="url" type="varchar(255)"/>
+            <column name="username" type="varchar(50)"/>
+            <column name="password" type="varchar(50)"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="tenant"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

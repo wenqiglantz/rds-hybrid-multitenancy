@@ -1,0 +1,69 @@
+server:
+  port: 8500
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    root: DEBUG
+    com:
+      github:
+        wenqiglantz: DEBUG
+
+springdoc:
+  swagger-ui:
+    #path: /apidoc
+    displayRequestDuration: true
+    disable-swagger-default-url: true
+    csrf:
+      enabled: true
+    operationsSorter: method #For sorting endpoints by http methods
+    tagsSorter: alpha #For sorting tags alphabetically
+  api-docs:
+    path: /api
+
+# Spring
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: public
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+
+multitenancy:
+  datasource-cache:
+    maximumSize: 100
+    expireAfterAccess: 10
+  master:
+    repository:
+      packages: com.github.wenqiglantz.service.customer.multitenancy
+    entityManager:
+      packages: com.github.wenqiglantz.service.customer.multitenancy
+    datasource:
+      url: jdbc:postgresql://localhost:5432/multi_tenant_customerdb
+      username: postgres
+      password: postgres
+    schema: public
+    liquibase:
+      enabled: false
+  tenant:
+    repository:
+      packages: com.github.wenqiglantz.service.customer.persistence.repository
+    entityManager:
+      packages: com.github.wenqiglantz.service.customer.persistence.entity
+    datasource:
+      url-prefix: jdbc:postgresql://localhost:5432/
+      hikari:
+        maximumPoolSize: 50
+        minimumIdle: 0
+        idleTimeout: 30000
+    liquibase:
+      enabled: false
+      changeLog: classpath:db/changelog/db.changelog-tenant.xml
+encryption:
+  secret: verySecret
+  salt: f1nd1ngn3m0
